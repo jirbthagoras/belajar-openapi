@@ -38,7 +38,63 @@
                                    summary: "Get All Active Todolist",
                                    description: 'Get All Active Todolist By Default',
                                    responses:
-                                     {},
+                                     {
+                                       "200":
+                                         {
+                                           "description": "Succes get all Todolist",
+                                           "content":
+                                             {
+                                               "application/json":
+                                               {
+                                                 'schema':
+                                                   {
+
+                                                     type: array,
+                                                     items:
+                                                       {
+                                                         type: object,
+                                                         "properties":
+                                                           {
+                                                             'id': {
+                                                               type: string,
+                                                             },
+                                                             'name': {
+                                                               type: string,
+                                                             },
+                                                             'priority': {
+                                                               type: number,
+                                                               format: "int32",
+                                                             },
+                                                             'tags': {
+                                                               type: array,
+                                                               items:
+                                                                 {
+                                                                   type: string
+                                                                 }
+                                                             }
+                                                           }
+                                                       }
+                                                   }
+                                               ,
+                                                 examples:
+                                                   {
+                                                     'success': {
+                                                                  description: 'Sucess get all todolist',
+                                                                  "value":
+                                                                    [
+                                                                      {
+                                                                        "id": "1",
+                                                                        'name': "Java",
+                                                                        "priority": 3,
+                                                                        "tags": ["Java", "Programming"]
+                                                                      }
+                                                                    ]
+                                                     }
+                                                   }
+                                               }
+                                             }
+                                         }
+                                     },
                                    parameters:
                                      [
 
@@ -90,7 +146,61 @@
                                     summary: "Create new Todolist",
                                     description: "Create new todolist and write in database",
                                     responses:
-                                      {},
+                                      {
+                                        "200":
+                                          {
+                                            description: "Succes create todolist",
+                                            content:
+                                              {
+                                                "application/json":
+                                                  {
+                                                    'schema':
+                                                      {
+                                                        type: array,
+                                                        items:
+                                                          {
+                                                            type: object,
+                                                            "properties":
+                                                              {
+                                                                'id': {
+                                                                  type: string,
+                                                                },
+                                                                'name': {
+                                                                  type: string,
+                                                                },
+                                                                'priority': {
+                                                                  type: number,
+                                                                  format: "int32",
+                                                                },
+                                                                'tags': {
+                                                                  type: array,
+                                                                  items:
+                                                                    {
+                                                                      type: string
+                                                                    }
+                                                                }
+                                                              }
+                                                          }
+                                                      }
+                                                  ,
+                                                    examples:
+                                                      {
+                                                        "java":
+                                                          {
+                                                            description: "Created Java Todolist",
+                                                            "value":
+                                                              {
+                                                                "id": '1',
+                                                                "name": "Java",
+                                                                "priority": 2,
+                                                                "tags": ["Java", 'Programming']
+                                                              }
+                                                          }
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                      },
                                     requestBody:
                                       {
                                         required: true,
@@ -203,6 +313,19 @@
                                                                     'priority': {
                                                                          "type": integer,
                                                                     }
+                                                                  }
+                                                              },
+                                                            examples:
+                                                              {
+                                                                'java':
+                                                                  {
+                                                                    "description": "Sample param Java",
+                                                                    value: '1',
+                                                                  },
+                                                                'php':
+                                                                  {
+                                                                    "description": "Sample param PHP",
+                                                                    value: '1',
                                                                   }
                                                               }
                                       }
