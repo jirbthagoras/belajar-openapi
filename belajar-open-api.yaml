@@ -1,0 +1,186 @@
+  {
+"openapi": "3.0.3",
+"info": {
+
+  "title": "Todolist RESTful API",
+  "description": "OpenAPI for Todolist",
+  "version": "1",
+  "contact": {
+    "name": "Jabriel Hans Sikma",
+  },
+  'license':
+    {
+      name: "Apache 2.0"
+    }
+},
+"servers":[
+  {
+    "url": "https://{environment}.programmerzamannow.com/api/v1",
+    "description": 'Todolist RESTful API',
+    "variables":
+      {
+        "environment": {
+                         "default": "dev",
+                         "description": 'Server Environment',
+                         "enum":
+                           [
+                           "dev",
+                           "qa",
+                           'prod'
+                           ]
+        }
+      },
+  }
+],
+"paths": {
+           "/todolist": {
+                          "get": {
+                                   summary: "Get All Active Todolist",
+                                   description: 'Get All Active Todolist By Default',
+                                   responses:
+                                     {},
+                                   parameters:
+                                     [
+
+                                       {
+                                         'name': 'Include Done',
+                                         'required': false,
+                                         description: 'Is include done todolist',
+                                         in: query,
+                                         "schema":
+                                           {
+                                             type: boolean,
+                                             default: true,
+                                             nullable: true
+                                           }
+
+                                       },
+
+                                       {
+                                         'name': 'name',
+                                         'required': false,
+                                         description: 'Filter todolist by name',
+                                         in: query,
+                                         "schema":
+                                           {
+                                             type: string,
+                                             "nullable": true,
+                                             maxLength: 100,
+                                             minLength: 1
+
+                                           }
+                                       }
+
+                                     ]
+                          },
+                          "post": {
+                                    summary: "Create new Todolist",
+                                    description: "Create new todolist and write in database",
+                                    responses:
+                                      {},
+                                    requestBody:
+                                      {
+                                        required: true,
+                                        content:
+                                          {
+                                            "application/json":
+                                              {
+                                                schema:
+                                                  {
+                                                    type: "object",
+                                                    "properties":
+                                                      {
+                                                        "name": {
+                                                                  "type": string,
+                                                                  minLength: 1,
+                                                                  maxLength: 100,
+
+                                                        },
+                                                        "priority": {
+                                                                      'type': integer,
+                                                                      format: "int32",
+                                                                      default: 1
+                                                        }
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                      }
+
+                          },
+           },
+           "/todolist/{todolistId}": {
+                          "delete":
+                            {
+
+                              summary: "Delete active todolist",
+                              description: "Delete Active todolist from database",
+                              responses:
+                                {},
+                              parameters:
+                                [
+
+                                  {
+                                    name: "todolistId",
+                                    "description": 'Id for deleting todolist',
+                                    in: "path",
+                                    required: true,
+                                    schema:
+                                      {
+                                        type: string
+                                      }
+
+                                  },
+
+                                ]
+                            },
+                          "put":
+                            {
+
+                              summary: "Update active todolist",
+                              description: "Update Active todolist in database",
+                              responses:
+                                {},
+                              requestBody:
+                                {
+                                  required: true,
+                                  content:
+                                    {
+                                      "application/json": {
+                                                            schema:
+                                                              {
+                                                                type: object,
+                                                                properties:
+                                                                  {
+                                                                    'name': {
+                                                                      "type": string,
+                                                                      minLength: 1,
+                                                                      maxLength: 100,
+                                                                    }
+                                                                  }
+                                                              }
+                                      }
+                                    }
+                                },
+                              parameters:
+                                [
+
+                                  {
+                                    name: "todolistId",
+                                    "description": 'Id for updating todolist',
+                                    in: "path",
+                                    required: true,
+                                    schema:
+                                      {
+                                      },
+
+
+                                  },
+
+                                ]
+
+                            }
+           }
+},
+  
+}
