@@ -68,6 +68,19 @@
                                              maxLength: 100,
                                              minLength: 1
 
+                                           },
+                                         "examples":
+                                           {
+                                             "java":
+                                               {
+                                                 description: "Example Java",
+                                                 value: 'Java',
+                                               },
+                                             "php":
+                                               {
+                                                 description: "Example PHP",
+                                                 value: 'PHP',
+                                               }
                                            }
                                        }
 
@@ -90,6 +103,15 @@
                                                     type: "object",
                                                     "properties":
                                                       {
+                                                        "tags": {
+                                                          type: array,
+                                                          required: false,
+                                                          items: {
+                                                            "type": string,
+                                                            "minLength": 1,
+                                                          }
+                                                        },
+
                                                         "name": {
                                                                   "type": string,
                                                                   minLength: 1,
@@ -100,6 +122,26 @@
                                                                       'type': integer,
                                                                       format: "int32",
                                                                       default: 1
+                                                        }
+                                                      }
+                                                  }
+                                              ,
+                                                examples:
+                                                  {
+                                                    "java":
+                                                      {
+                                                        "value": {
+                                                                   name: "Belajar bahasa pemrograman Java",
+                                                                   priority: 3,
+                                                                   tags: ['Java', 'Programming'],
+                                                        }
+                                                      },
+                                                    "php":
+                                                      {
+                                                        "value": {
+                                                                   name: "Belajar bahasa pemrograman PHP",
+                                                                   priority: 1,
+                                                                   tags: ['PHP', 'Programming']
                                                         }
                                                       }
                                                   }
