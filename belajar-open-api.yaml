@@ -15,7 +15,7 @@
 },
 "servers":[
   {
-    "url": "https://{environment}.programmerzamannow.com/api/v1",
+    "url": "https://{environment}.jirbthagoras.com/api/v1",
     "description": 'Todolist RESTful API',
     "variables":
       {
@@ -35,6 +35,14 @@
 "paths": {
            "/todolist": {
                           "get": {
+                                   security:
+                                     [
+
+                                       {
+                                         "TodolistAuth": [],
+                                       }
+
+                                     ],
                                    tags: ['Todolist'],
                                    summary: "Get All Active Todolist",
                                    description: 'Get All Active Todolist By Default',
@@ -121,6 +129,14 @@
                                      ]
                           },
                           "post": {
+                            security:
+                                    [
+
+                                      {
+                                        "TodolistAuth": [ ],
+                                      }
+
+                                    ],
                                     summary: "Create new Todolist",
                                     tags: ['Todolist'],
                                     description: "Create new todolist and write in database",
@@ -207,7 +223,14 @@
            "/todolist/{todolistId}": {
                           "delete":
                             {
+                              security:
+                                [
 
+                                  {
+                                    "TodolistAuth": [ ],
+                                  }
+
+                                ],
                               summary: "Delete active todolist",
                               tags: ['Todolist'],
                               description: "Delete Active todolist from database",
@@ -477,5 +500,5 @@ components:
           }
       }
   }
-  
+
 }
