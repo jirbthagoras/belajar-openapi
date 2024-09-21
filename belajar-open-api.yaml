@@ -35,6 +35,7 @@
 "paths": {
            "/todolist": {
                           "get": {
+                                   tags: ['Todolist'],
                                    summary: "Get All Active Todolist",
                                    description: 'Get All Active Todolist By Default',
                                    responses:
@@ -49,31 +50,8 @@
                                                  'schema':
                                                    {
 
-                                                     type: array,
-                                                     items:
-                                                       {
-                                                         type: object,
-                                                         "properties":
-                                                           {
-                                                             'id': {
-                                                               type: string,
-                                                             },
-                                                             'name': {
-                                                               type: string,
-                                                             },
-                                                             'priority': {
-                                                               type: number,
-                                                               format: "int32",
-                                                             },
-                                                             'tags': {
-                                                               type: array,
-                                                               items:
-                                                                 {
-                                                                   type: string
-                                                                 }
-                                                             }
-                                                           }
-                                                       }
+                                                     $ref: "#/components/schemas/ArrayTodolist"
+
                                                    }
                                                ,
                                                  examples:
@@ -144,6 +122,7 @@
                           },
                           "post": {
                                     summary: "Create new Todolist",
+                                    tags: ['Todolist'],
                                     description: "Create new todolist and write in database",
                                     responses:
                                       {
@@ -156,31 +135,7 @@
                                                   {
                                                     'schema':
                                                       {
-                                                        type: array,
-                                                        items:
-                                                          {
-                                                            type: object,
-                                                            "properties":
-                                                              {
-                                                                'id': {
-                                                                  type: string,
-                                                                },
-                                                                'name': {
-                                                                  type: string,
-                                                                },
-                                                                'priority': {
-                                                                  type: number,
-                                                                  format: "int32",
-                                                                },
-                                                                'tags': {
-                                                                  type: array,
-                                                                  items:
-                                                                    {
-                                                                      type: string
-                                                                    }
-                                                                }
-                                                              }
-                                                          }
+                                                        $ref: "#/components/schemas/ArrayTodolist",
                                                       }
                                                   ,
                                                     examples:
@@ -194,6 +149,17 @@
                                                                 "name": "Java",
                                                                 "priority": 2,
                                                                 "tags": ["Java", 'Programming']
+                                                              }
+                                                          },
+                                                        "php":
+                                                          {
+                                                            description: "Created PHP Todolist",
+                                                            "value":
+                                                              {
+                                                                "id": '1',
+                                                                "name": "PHP",
+                                                                "priority": 2,
+                                                                "tags": ["PHP", 'Programming']
                                                               }
                                                           }
                                                       }
@@ -210,30 +176,7 @@
                                               {
                                                 schema:
                                                   {
-                                                    type: "object",
-                                                    "properties":
-                                                      {
-                                                        "tags": {
-                                                          type: array,
-                                                          required: false,
-                                                          items: {
-                                                            "type": string,
-                                                            "minLength": 1,
-                                                          }
-                                                        },
-
-                                                        "name": {
-                                                                  "type": string,
-                                                                  minLength: 1,
-                                                                  maxLength: 100,
-
-                                                        },
-                                                        "priority": {
-                                                                      'type': integer,
-                                                                      format: "int32",
-                                                                      default: 1
-                                                        }
-                                                      }
+                                                    $ref: "#/components/schemas/CreateOrUpdateTodolist",
                                                   }
                                               ,
                                                 examples:
@@ -266,23 +209,66 @@
                             {
 
                               summary: "Delete active todolist",
+                              tags: ['Todolist'],
                               description: "Delete Active todolist from database",
                               responses:
-                                {},
+                                {
+                                  "200": {
+                                           description: "Success delete todolist",
+                                           content:
+                                             {
+                                               "application/json":
+                                                 {
+                                                   schema:
+                                                     {
+                                                       type: "object",
+                                                       "properties":
+                                                         {
+                                                           "success": {
+                                                                        type: boolean
+                                                           }
+                                                         }
+                                                     }
+                                                 }
+                                             }
+                                  },
+                                  "404":
+                                    {
+                                      description: "Failed to update the todolist",
+                                      content:
+                                        {
+                                          "application/json":
+                                            {
+                                              schema:
+                                                {
+                                                  type: object,
+                                                  properties:
+                                                    {
+                                                      "success":
+                                                        {
+                                                          type: boolean,
+                                                          default: false
+                                                        }
+                                                    }
+                                                },
+                                              examples:
+                                                {
+                                                  'success':
+                                                    {
+                                                      "description": "Sample failed update todolist",
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
                               parameters:
                                 [
 
                                   {
-                                    name: "todolistId",
-                                    "description": 'Id for deleting todolist',
-                                    in: "path",
-                                    required: true,
-                                    schema:
-                                      {
-                                        type: string
-                                      }
-
-                                  },
+                                    "$ref": "#/components/parameters/TodolistId"
+                                  }
 
                                 ]
                             },
@@ -290,9 +276,51 @@
                             {
 
                               summary: "Update active todolist",
+                              tags: ['Todolist'],
                               description: "Update Active todolist in database",
                               responses:
-                                {},
+                                {
+                                  "200":
+                                    {
+                                      description: "Succes create todolist",
+                                      content:
+                                        {
+                                          "application/json":
+                                            {
+                                              'schema':
+                                                {
+                                                  $ref: "#/components/schemas/ArrayTodolist",
+                                                }
+                                              ,
+                                              examples:
+                                                {
+                                                  "java":
+                                                    {
+                                                      description: "Created Java Todolist",
+                                                      "value":
+                                                        {
+                                                          "id": '1',
+                                                          "name": "Java",
+                                                          "priority": 2,
+                                                          "tags": [ "Java", 'Programming' ]
+                                                        }
+                                                    },
+                                                  "php":
+                                                    {
+                                                      description: "Created PHP Todolist",
+                                                      "value":
+                                                        {
+                                                          "id": '1',
+                                                          "name": "PHP",
+                                                          "priority": 2,
+                                                          "tags": [ "PHP", 'Programming' ]
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
                               requestBody:
                                 {
                                   required: true,
@@ -301,19 +329,8 @@
                                       "application/json": {
                                                             schema:
                                                               {
-                                                                type: object,
-                                                                properties:
-                                                                  {
-                                                                    'name': {
-                                                                      "type": string,
-                                                                      minLength: 1,
-                                                                      maxLength: 100,
-                                                                    },
 
-                                                                    'priority': {
-                                                                         "type": integer,
-                                                                    }
-                                                                  }
+                                                                $ref: "#/components/schemas/CreateOrUpdateTodolist"
                                                               },
                                                             examples:
                                                               {
@@ -335,21 +352,130 @@
                                 [
 
                                   {
-                                    name: "todolistId",
-                                    "description": 'Id for updating todolist',
-                                    in: "path",
-                                    required: true,
-                                    schema:
-                                      {
-                                      },
 
+                                    $ref: "#/components/parameters/TodolistId",
+                                  }
 
-                                  },
 
                                 ]
 
                             }
            }
 },
+components:
+  {
+    securitySchemes:
+      {
+        "TodolistAuth":
+          {
+            "type": "apiKey",
+            "description": "Authentication for Todolist API",
+            "in": "header",
+            'name': 'X-TL-APIKEY'
+          }
+      },
+    parameters:
+      {
+
+        "TodolistId":
+          {
+            name: "todolistId",
+            "description": 'Id for updating todolist',
+            in: "path",
+            required: true,
+            schema:
+              {
+
+                type: string,
+                minLength: 1,
+                maxLength: 100,
+
+              },
+            examples:
+              {
+                "java": {
+                  description: "Sample Java todolist",
+                  "value": 1
+                }
+              }
+
+
+          },
+
+      },
+    schemas:
+      {
+        "Todolist":
+          {
+            type: object,
+            "properties":
+              {
+                'id': {
+                  type: string,
+                },
+                'name': {
+                  type: string,
+                },
+                'priority': {
+                  type: number,
+                  format: "int32",
+                },
+                'tags': {
+                  type: array,
+                  items:
+                    {
+                      type: string
+                    }
+                }
+              }
+          },
+        "CreateOrUpdateTodolist":
+          {
+            type: object,
+            "properties":
+              {
+                'name': {
+                  type: string,
+                },
+                'priority': {
+                  type: number,
+                  format: "int32",
+                },
+                'tags': {
+                  type: array,
+                  items:
+                    {
+                      type: string
+                    }
+                }
+              }
+          },
+        "ArrayTodolist":
+          {
+            type: array,
+            items:
+              {
+                type: object,
+                "properties":
+                  {
+                    'name': {
+                      type: string,
+                    },
+                    'priority': {
+                      type: number,
+                      format: "int32",
+                    },
+                    'tags': {
+                      type: array,
+                      items:
+                        {
+                          type: string
+                        }
+                    }
+                  }
+              }
+          }
+      }
+  }
   
 }
